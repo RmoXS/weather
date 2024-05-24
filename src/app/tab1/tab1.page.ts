@@ -1,8 +1,5 @@
-// /app/tab1/tab1.page.ts
-
 import { Component, OnInit } from '@angular/core';
-import { WeatherService } from '../services/weather.service';
-import { Weather } from '../services/weather.service'; // Ubah import sesuai lokasi interface
+import { WeatherService, Weather } from '../services/weather.service';
 
 @Component({
   selector: 'app-tab1',
@@ -28,7 +25,6 @@ export class Tab1Page implements OnInit {
       result => {
         this.weather = result;
         this.temp = result.main.temp;
-        this.city = result.name;
         console.log(this.weather);
       },
       error => {

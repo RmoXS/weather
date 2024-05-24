@@ -8,14 +8,18 @@ import { Observable } from 'rxjs';
 
 export class WeatherService {
 
-  url = 'https://api.openweathermap.org/data/2.5/weather';
+  url = 'https://api.openweathermap.org/data/2.5/';
   key = 'b5342501d5a39c7c50b1458790e757dc';
   city = 'Sleman';
 
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any> {
-    return this.http.get(`${this.url}?q=${this.city}&appid=${this.key}&units=metric`);
+    return this.http.get(`${this.url}weather?q=${this.city}&appid=${this.key}&units=metric`);
+  }
+
+  getDatalist(): Observable<any> {
+    return this.http.get(`${this.url}forecast?q=${this.city}&appid=${this.key}&units=metric`);
   }
 }
 
@@ -31,3 +35,15 @@ export interface Weather {
   name: string;
 }
 
+export interface Forecast {
+  list: Array<{
+    dt_txt: string;
+    main: {
+      temp: number;
+    };
+    weather: Array<{
+      description: string;
+      icon: string;
+    }>;
+  }>;
+}
