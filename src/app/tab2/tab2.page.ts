@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService, Forecast} from '../services/weather.service';
 import { DatePipe } from '@angular/common';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -14,7 +15,7 @@ export class Tab2Page implements OnInit{
   };
   city: string = 'Sleman';
 
-  constructor(private weatherService: WeatherService, private datePipe: DatePipe ) {}
+  constructor(private weatherService: WeatherService, private datePipe: DatePipe, private route: Router ) {}
 
   ngOnInit(): void {
     this.weatherService.getDatalist().subscribe(
@@ -28,4 +29,21 @@ export class Tab2Page implements OnInit{
   formatDate (dateString: string): string {
     return this.datePipe.transform(dateString, "dd MMM - hh a")!;
   }
+
+  detailpage(w:any):void{
+     let weather= {
+      date: w.dt_txt,
+      temp: w.main.temp,
+      main: w.weather[0].main,
+      desc: w.weather[0].description,
+      icon: w.weather[0].icon
+     }
+     let extras: NavigationExtras = {
+     queryParams: {
+     special: JSON.stringify(weather)
+     }
+     };
+    
+     this.route.navigate(['/detail'], extras);
+     } 
 }
